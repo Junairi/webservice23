@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\ProductController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('customers', [CustomerController::class, 'index']);
-    Route::get('customers/{id}', [CustomerController::class, 'show']);
+    //customers
+    Route::group(['prefix' => 'customers'], function () {
+        Route::get('/', [CustomerController::class, 'index']);
+        Route::get('/{id}', [CustomerController::class, 'show']);
+    });
+
+    //products
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+    });
 });
