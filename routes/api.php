@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CategorieCustomer;
+use App\Http\Controllers\API\OrderController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,5 +49,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/store', [CategorieCustomer::class, 'store']);
         Route::patch('/{id}', [CategorieCustomer::class, 'update']);
         Route::delete('/{id}', [CategorieCustomer::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'orders'], function() {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/{id}', [OrderController::class, 'show']);
+        Route::post('/store', [OrderController::class, 'store']);
+        Route::patch('/{id}', [OrderController::class, 'update']);
+        Route::delete('/{id}', [OrderController::class, 'delete']);
     });
 });
