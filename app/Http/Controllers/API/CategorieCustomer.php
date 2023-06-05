@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Categorie;
 use Illuminate\Support\Facades\Validator;
 
 
-class CustomerController extends Controller
+class CategorieCustomer extends Controller
 {
     public function index() {
-        $data = Customer::all();
+        $data = Categorie::all();
         return response()->json($data, 200);
     }
 
@@ -26,7 +26,7 @@ class CustomerController extends Controller
     // }
 
     public function show ($id) {
-        $data = Customer::where('id', $id)->first();
+        $data = Categorie::where('id', $id)->first();
         if (empty($data)) {
             return response()->json([
                 'pesan' => 'Data Tidak Ditemukan',
@@ -45,17 +45,14 @@ class CustomerController extends Controller
     public function store(Request $request) {
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'address' => 'required'
+            'name' => 'required'
         ]);
 
         if ($validate->fails()) {
             return $validate->errors();
         }
 
-        $data = Customer::create($request->all());
+        $data = Categorie::create($request->all());
         return response()->json([
             'pesan'=> "data berhasil disimpan",
             'data'=> $data
@@ -64,7 +61,7 @@ class CustomerController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $data = Customer::where('id', $id)->first();
+        $data = Categorie::where('id', $id)->first();
 
         // cek data dengan id yg dikirimkan
         if (empty($data)) {
@@ -76,10 +73,7 @@ class CustomerController extends Controller
 
         // proses validasi
         $validate = Validator::make($request->all(), [
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'address' => 'required',
+            'name' => 'required'
         ]);
 
         if ($validate->fails()) {
@@ -96,7 +90,7 @@ class CustomerController extends Controller
     }
 
     public function delete($id) {
-        $data = Customer::where('id', $id)->first();
+        $data = Categorie::where('id', $id)->first();
         // cek data dengan id yg dikirimkan
         if (empty($data)) {
             return response()->json([

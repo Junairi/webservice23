@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\CategorieCustomer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,11 +28,25 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'customers'], function () {
         Route::get('/', [CustomerController::class, 'index']);
         Route::get('/{id}', [CustomerController::class, 'show']);
+        Route::post('/store', [CustomerController::class, 'store']);
+        Route::patch('/{id}', [CustomerController::class, 'update']);
+        Route::delete('/{id}', [CustomerController::class, 'delete']);
     });
 
     //products
     Route::group(['prefix' => 'products'], function () {
         Route::get('/', [ProductController::class, 'index']);
         Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/store', [ProductController::class, 'store']);
+        Route::patch('/{id}', [ProductController::class, 'update']);
+        Route::delete('/{id}', [ProductController::class, 'delete']);
+    });
+
+    Route::group(['prefix' => 'categories'], function() {
+        Route::get('/', [CategorieCustomer::class, 'index']);
+        Route::get('/{id}', [CategorieCustomer::class, 'show']);
+        Route::post('/store', [CategorieCustomer::class, 'store']);
+        Route::patch('/{id}', [CategorieCustomer::class, 'update']);
+        Route::delete('/{id}', [CategorieCustomer::class, 'delete']);
     });
 });

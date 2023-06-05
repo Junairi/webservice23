@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProductController extends Controller
 {
@@ -57,4 +59,75 @@ class ProductController extends Controller
     //         'data'=> $data
     //     ], 201);
     // }
+
+    public function store(Request $request) {
+
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
+
+        $data = Product::create($request->all());
+        return response()->json([
+            'pesan'=> "data berhasil disimpan",
+            'data'=> $data
+        ], 201);
+
+    }
+
+    public function update(Request $request, $id) {
+        $data = Product::where('id', $id)->first();
+
+        // cek data dengan id yg dikirimkan
+        if (empty($data)) {
+            return response()->json([
+                'pesan' => 'Data tidak ditemukan',
+                'data' => $data
+            ], 404);
+        }
+
+        // proses validasi
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'category_id' => 'required'
+        ]);
+
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
+
+        // proses simpan perubahan data
+        $data->update($request->all());
+
+        return response()->json([
+            'pesan' => 'Data berhasil di update',
+            'data' => $data
+        ], 201);
+    }
+
+    public function delete($id) {
+        $data = Product::where('id', $id)->first();
+        // cek data dengan id yg dikirimkan
+        if (empty($data)) {
+            return response()->json([
+                'pesan' => 'Data tidak ditemukan',
+                'data' => $data
+            ], 404);
+        }
+
+        $data->delete();
+
+        return response()->json([
+            'pesan' => 'Data berhasil di hapus',
+            'data' => $data
+        ], 200);
+    }
 }
