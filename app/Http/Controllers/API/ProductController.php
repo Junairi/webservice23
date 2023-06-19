@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,7 +12,8 @@ use Illuminate\Support\Facades\Validator;
 class ProductController extends Controller
 {
     public function index() {
-        $data = Product::all();
+        $dataRaw = Product::with('category')->get();
+        $data = ProductResource::collection($dataRaw);
         return response()->json($data, 200);
     }
 

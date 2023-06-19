@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class CategorieCustomer extends Controller
 {
     public function index() {
-        $data = Categorie::all();
+        $data = Categorie::with('products')->get();
         return response()->json($data, 200);
     }
 
