@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CategorieCustomer;
 use App\Http\Controllers\API\OrderController;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,4 +58,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('/{id}', [OrderController::class, 'update']);
         Route::delete('/{id}', [OrderController::class, 'delete']);
     });
+
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
